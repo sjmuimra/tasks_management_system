@@ -1,0 +1,92 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: tasks_manager_app
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - tasks_management_network
+
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: tasks_manager_nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+    networks:
+      - tasks_management_network
+
+  db:
+    image: mysql:8.0
+    container_name: tasks_manager_db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: tasks_manager
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - tasks_management_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: tasks_manager_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - tasks_management_network
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: tasks_manager_mailpit
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    networks:
+      - tasks_management_network
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: tasks_manager_queue
+    working_dir: /var/www
+    command: php artisan queue:work redis --sleep=3 --tries=3
+    volumes:
+      - .:/var/www
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - tasks_management_network
+
+volumes:
+  db_data:
+
+networks:
+  tasks_management_network:
+    driver: bridge
