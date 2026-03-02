@@ -15,7 +15,7 @@ class EnsureTaskOwnershipTest extends TestCase
         $user = $this->actingAsUser();
         $task = Task::factory()->create(['user_id' => $user->id]);
 
-        $this->getJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->getJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(200);
     }
 
@@ -24,7 +24,7 @@ class EnsureTaskOwnershipTest extends TestCase
         $this->actingAsUser();
         $task = Task::factory()->create();
 
-        $this->getJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->getJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(403)
             ->assertJsonPath('message', 'You do not have permission to access this task.');
     }
@@ -34,7 +34,7 @@ class EnsureTaskOwnershipTest extends TestCase
         $this->actingAsUser();
         $task = Task::factory()->create();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'title'       => 'Hacked Title',
             'description' => 'Hacked',
             'status'      => 'done',
@@ -47,7 +47,7 @@ class EnsureTaskOwnershipTest extends TestCase
         $this->actingAsUser();
         $task = Task::factory()->create();
 
-        $this->deleteJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->deleteJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(403)
             ->assertJsonPath('message', 'You do not have permission to access this task.');
     }
@@ -57,7 +57,7 @@ class EnsureTaskOwnershipTest extends TestCase
         $this->actingAsAdmin();
         $task = Task::factory()->create();
 
-        $this->getJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->getJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(200);
     }
 
@@ -66,10 +66,10 @@ class EnsureTaskOwnershipTest extends TestCase
         $this->actingAsAdmin();
         $task = Task::factory()->create();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => 'Admin Updated',
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => 'Admin Updated',
             'description' => $task->description,
-            'status'      => 'done',
+            'status' => 'done',
         ])->assertStatus(200);
     }
 
@@ -78,7 +78,7 @@ class EnsureTaskOwnershipTest extends TestCase
         $this->actingAsAdmin();
         $task = Task::factory()->create();
 
-        $this->deleteJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->deleteJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(200);
     }
 
@@ -86,7 +86,7 @@ class EnsureTaskOwnershipTest extends TestCase
     {
         $task = Task::factory()->create();
 
-        $this->getJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->getJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(401);
     }
 }

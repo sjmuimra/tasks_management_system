@@ -23,7 +23,7 @@ class LoginRequestTest extends TestCase
     public function test_email_must_be_a_valid_email_address(): void
     {
         $this->postJson($this->url, [
-            'email'    => 'not-an-email',
+            'email' => 'not-an-email',
             'password' => 'password',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['email']);
@@ -32,7 +32,7 @@ class LoginRequestTest extends TestCase
     public function test_email_must_be_a_string(): void
     {
         $this->postJson($this->url, [
-            'email'    => 12345,
+            'email' => 12345,
             'password' => 'password',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['email']);
@@ -49,7 +49,7 @@ class LoginRequestTest extends TestCase
     public function test_password_must_be_a_string(): void
     {
         $this->postJson($this->url, [
-            'email'    => 'john@example.com',
+            'email' => 'john@example.com',
             'password' => 12345678,
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['password']);
@@ -67,7 +67,7 @@ class LoginRequestTest extends TestCase
         User::factory()->create(['email' => 'john@example.com']);
 
         $this->postJson($this->url, [
-            'email'    => 'john@example.com',
+            'email' => 'john@example.com',
             'password' => 'wrong-password',
         ])->assertStatus(401);
     }

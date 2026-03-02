@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
-use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {

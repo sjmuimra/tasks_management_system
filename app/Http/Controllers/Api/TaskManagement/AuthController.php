@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\TaskManagement;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskManagement\Auth\LoginRequest;
 use App\Http\Requests\TaskManagement\Auth\RegisterRequest;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {

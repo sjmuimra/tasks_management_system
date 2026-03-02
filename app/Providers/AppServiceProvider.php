@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Listeners\TaskManagement\SendOverdueTaskNotification;
+use App\Events\TaskManagement\TaskUpdated;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            TaskUpdated::class,
+            SendOverdueTaskNotification::class,
+        );
     }
 }

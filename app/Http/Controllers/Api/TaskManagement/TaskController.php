@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api\TaskManagement;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\TaskManagement\Task\StoreTaskRequest;
 use App\Http\Requests\TaskManagement\Task\UpdateTaskRequest;
+use App\Events\TaskManagement\TaskUpdated;
+use App\Http\Controllers\Controller;
 use App\Models\TaskManagement\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class TaskController extends Controller
     {
         $task->update($request->validated());
 
-        // todo evening firing for deadline
+        event(new TaskUpdated($task->fresh()));
 
         return response()->json([
             'message' => 'Task updated successfully.',
