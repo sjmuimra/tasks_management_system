@@ -15,7 +15,7 @@ class ProjectControllerTest extends TestCase
     {
         $user = $this->actingAsUser();
         Project::factory(3)->create(['user_id' => $user->id]);
-        Project::factory(2)->create(); // other user's projects
+        Project::factory(2)->create();
 
         $this->getJson('/api/v1/task-management/projects')
             ->assertStatus(200)
@@ -24,10 +24,10 @@ class ProjectControllerTest extends TestCase
 
     public function test_project_list_includes_task_count(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
         Task::factory(4)->create([
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
 
@@ -46,7 +46,7 @@ class ProjectControllerTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson('/api/v1/task-management/projects', [
-            'name'        => 'My Project',
+            'name' => 'My Project',
             'description' => 'Project description',
         ])->assertStatus(201)
             ->assertJsonPath('message', 'Project created successfully.')
@@ -63,7 +63,7 @@ class ProjectControllerTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('projects', [
-            'name'    => 'My Project',
+            'name' => 'My Project',
             'user_id' => $user->id,
         ]);
     }
@@ -79,14 +79,14 @@ class ProjectControllerTest extends TestCase
 
     public function test_user_can_view_a_project_with_tasks(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
         Task::factory(3)->create([
             'user_id'    => $user->id,
             'project_id' => $project->id,
         ]);
 
-        $this->getJson("/api/v1/task-management/projects/{$project->id}")
+        $this->getJson("/api/v1/task-management/projects/$project->id")
             ->assertStatus(200)
             ->assertJsonPath('id', $project->id)
             ->assertJsonCount(3, 'tasks');
@@ -94,10 +94,10 @@ class ProjectControllerTest extends TestCase
 
     public function test_user_can_update_their_project(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
-        $this->putJson("/api/v1/task-management/projects/{$project->id}", [
+        $this->putJson("/api/v1/task-management/projects/$project->id", [
             'name' => 'Updated Name',
         ])->assertStatus(200)
             ->assertJsonPath('message', 'Project updated successfully.')
@@ -106,10 +106,10 @@ class ProjectControllerTest extends TestCase
 
     public function test_update_fails_when_name_is_empty(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
-        $this->putJson("/api/v1/task-management/projects/{$project->id}", [
+        $this->putJson("/api/v1/task-management/projects/$project->id", [
             'name' => '',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['name']);
@@ -117,10 +117,10 @@ class ProjectControllerTest extends TestCase
 
     public function test_user_can_delete_their_project(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
-        $this->deleteJson("/api/v1/task-management/projects/{$project->id}")
+        $this->deleteJson("/api/v1/task-management/projects/$project->id")
             ->assertStatus(200)
             ->assertJsonPath('message', 'Project deleted successfully.');
 
@@ -129,17 +129,17 @@ class ProjectControllerTest extends TestCase
 
     public function test_tasks_become_projectless_when_project_is_deleted(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
-        $task    = Task::factory()->create([
-            'user_id'    => $user->id,
+        $task = Task::factory()->create([
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
 
-        $this->deleteJson("/api/v1/task-management/projects/{$project->id}")->assertStatus(200);
+        $this->deleteJson("/api/v1/task-management/projects/$project->id")->assertStatus(200);
 
         $this->assertDatabaseHas('tasks', [
-            'id'         => $task->id,
+            'id' => $task->id,
             'project_id' => null,
         ]);
     }

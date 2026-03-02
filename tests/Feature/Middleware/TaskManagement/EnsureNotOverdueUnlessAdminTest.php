@@ -15,7 +15,7 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
         $user = $this->actingAsUser();
         $task = Task::factory()->overdue()->create(['user_id' => $user->id]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'status' => 'in_progress',
         ])->assertStatus(403)
             ->assertJsonPath('message', 'Only admins can edit tasks with an overdue deadline.');
@@ -25,15 +25,15 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
     {
         $user = $this->actingAsUser();
         $task = Task::factory()->create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'deadline' => now()->addDays(5),
-            'status'   => 'todo',
+            'status' => 'todo',
         ]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => $task->title,
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => $task->title,
             'description' => $task->description,
-            'status'      => 'in_progress',
+            'status' => 'in_progress',
         ])->assertStatus(200);
     }
 
@@ -41,15 +41,15 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
     {
         $user = $this->actingAsUser();
         $task = Task::factory()->create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'deadline' => null,
-            'status'   => 'todo',
+            'status' => 'todo',
         ]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => $task->title,
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => $task->title,
             'description' => $task->description,
-            'status'      => 'in_progress',
+            'status' => 'in_progress',
         ])->assertStatus(200);
     }
 
@@ -58,15 +58,15 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
         $user = $this->actingAsUser();
 
         $task = Task::factory()->create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'deadline' => now()->subDays(3),
-            'status'   => 'done',
+            'status' => 'done',
         ]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => $task->title,
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => $task->title,
             'description' => $task->description,
-            'status'      => 'done',
+            'status' => 'done',
         ])->assertStatus(200);
     }
 
@@ -75,10 +75,10 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
         $this->actingAsAdmin();
         $task = Task::factory()->overdue()->create();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => $task->title,
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => $task->title,
             'description' => $task->description,
-            'status'      => 'done',
+            'status' => 'done',
         ])->assertStatus(200);
     }
 
@@ -87,10 +87,10 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
         $admin = $this->actingAsAdmin();
         $task  = Task::factory()->overdue()->create(['user_id' => $admin->id]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => $task->title,
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => $task->title,
             'description' => $task->description,
-            'status'      => 'in_progress',
+            'status' => 'in_progress',
         ])->assertStatus(200);
     }
 
@@ -98,7 +98,7 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
     {
         $task = Task::factory()->overdue()->create();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'status' => 'done',
         ])->assertStatus(401);
     }

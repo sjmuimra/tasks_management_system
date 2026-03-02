@@ -17,9 +17,9 @@ class UpdateTaskRequestTest extends TestCase
         $user = $this->actingAsUser();
 
         return Task::factory()->create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'deadline' => null,
-            'status'   => 'todo',
+            'status' => 'todo',
         ]);
     }
 
@@ -27,9 +27,9 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'description' => 'Updated desc',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(200);
     }
 
@@ -37,7 +37,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'title' => '',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['title']);
@@ -47,7 +47,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'title' => str_repeat('a', 256),
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['title']);
@@ -57,8 +57,8 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'  => 'Updated Title',
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => 'Updated Title',
             'status' => 'todo',
         ])->assertStatus(200);
     }
@@ -67,7 +67,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'description' => '',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['description']);
@@ -77,7 +77,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'title' => 'Updated Title',
         ])->assertStatus(200);
     }
@@ -86,7 +86,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'status' => 'invalid_status',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['status']);
@@ -97,7 +97,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'status' => $status,
         ])->assertStatus(200);
     }
@@ -105,9 +105,9 @@ class UpdateTaskRequestTest extends TestCase
     public static function validStatusProvider(): array
     {
         return [
-            'todo status'        => ['todo'],
+            'todo status' => ['todo'],
             'in_progress status' => ['in_progress'],
-            'done status'        => ['done'],
+            'done status' => ['done'],
         ];
     }
 
@@ -125,7 +125,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'deadline' => now()->subDay()->toDateTimeString(),
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['deadline']);
@@ -135,7 +135,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'deadline' => null,
         ])->assertStatus(200);
     }
@@ -144,7 +144,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'deadline' => now()->addWeek()->toDateTimeString(),
         ])->assertStatus(200);
     }
@@ -153,7 +153,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'project_id' => 99999,
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['project_id']);
@@ -161,11 +161,11 @@ class UpdateTaskRequestTest extends TestCase
 
     public function test_valid_project_id_is_accepted_on_update(): void
     {
-        $user    = $this->actingAsUser();
-        $task    = Task::factory()->create(['user_id' => $user->id, 'deadline' => null]);
+        $user = $this->actingAsUser();
+        $task = Task::factory()->create(['user_id' => $user->id, 'deadline' => null]);
         $project = Project::factory()->create(['user_id' => $user->id]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'project_id' => $project->id,
         ])->assertStatus(200);
     }
@@ -174,7 +174,7 @@ class UpdateTaskRequestTest extends TestCase
     {
         $task = $this->makeTask();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'project_id' => null,
         ])->assertStatus(200);
     }

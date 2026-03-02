@@ -5,6 +5,7 @@ namespace Tests\Feature\Controllers\TaskManagement;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
+use App\Models\User;
 use Tests\TestCase;
 
 class TaskControllerTest extends TestCase
@@ -24,16 +25,16 @@ class TaskControllerTest extends TestCase
 
     public function test_user_can_filter_tasks_by_project(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
         Task::factory(3)->create([
             'user_id'    => $user->id,
             'project_id' => $project->id,
         ]);
-        Task::factory(2)->create(['user_id' => $user->id]); // no project
+        Task::factory(2)->create(['user_id' => $user->id]);
 
-        $this->getJson("/api/v1/task-management/tasks?project_id={$project->id}")
+        $this->getJson("/api/v1/task-management/tasks?project_id=$project->id")
             ->assertStatus(200)
             ->assertJsonCount(3, 'data');
     }
@@ -48,9 +49,9 @@ class TaskControllerTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson('/api/v1/task-management/tasks', [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'Task description',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(201)
             ->assertJsonPath('message', 'Task created successfully.')
             ->assertJsonPath('task.title', 'My Task');
@@ -61,13 +62,13 @@ class TaskControllerTest extends TestCase
         $user = $this->actingAsUser();
 
         $this->postJson('/api/v1/task-management/tasks', [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'Task description',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('tasks', [
-            'title'   => 'My Task',
+            'title' => 'My Task',
             'user_id' => $user->id,
         ]);
     }
@@ -77,9 +78,9 @@ class TaskControllerTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson('/api/v1/task-management/tasks', [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'Task description',
-            'status'      => 'invalid_status',
+            'status' => 'invalid_status',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['status']);
     }
@@ -89,10 +90,10 @@ class TaskControllerTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson('/api/v1/task-management/tasks', [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'Task description',
-            'status'      => 'todo',
-            'deadline'    => now()->subDay()->toDateTimeString(),
+            'status' => 'todo',
+            'deadline' => now()->subDay()->toDateTimeString(),
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['deadline']);
     }
@@ -102,9 +103,9 @@ class TaskControllerTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson('/api/v1/task-management/tasks', [
-            'title'       => str_repeat('a', 256),
+            'title' => str_repeat('a', 256),
             'description' => 'Task description',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['title']);
     }
@@ -123,7 +124,7 @@ class TaskControllerTest extends TestCase
         $user = $this->actingAsUser();
         $task = Task::factory()->create(['user_id' => $user->id]);
 
-        $this->getJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->getJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(200)
             ->assertJsonPath('id', $task->id);
     }
@@ -133,7 +134,7 @@ class TaskControllerTest extends TestCase
         $this->actingAsUser();
         $task = Task::factory()->create();
 
-        $this->getJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->getJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(403);
     }
 
@@ -142,7 +143,7 @@ class TaskControllerTest extends TestCase
         $this->actingAsAdmin();
         $task = Task::factory()->create();
 
-        $this->getJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->getJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(200);
     }
 
@@ -151,10 +152,10 @@ class TaskControllerTest extends TestCase
         $user = $this->actingAsUser();
         $task = Task::factory()->create(['user_id' => $user->id]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => 'Updated Title',
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
+            'title' => 'Updated Title',
             'description' => 'Updated description',
-            'status'      => 'in_progress',
+            'status' => 'in_progress',
         ])->assertStatus(200)
             ->assertJsonPath('message', 'Task updated successfully.')
             ->assertJsonPath('task.title', 'Updated Title');
@@ -165,7 +166,7 @@ class TaskControllerTest extends TestCase
         $this->actingAsUser();
         $task = Task::factory()->create();
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'status' => 'done',
         ])->assertStatus(403);
     }
@@ -175,7 +176,7 @@ class TaskControllerTest extends TestCase
         $user = $this->actingAsUser();
         $task = Task::factory()->overdue()->create(['user_id' => $user->id]);
 
-        $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
+        $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'status' => 'in_progress',
         ])->assertStatus(403);
     }
@@ -186,9 +187,9 @@ class TaskControllerTest extends TestCase
         $task = Task::factory()->overdue()->create();
 
         $this->putJson("/api/v1/task-management/tasks/{$task->id}", [
-            'title'       => $task->title,
+            'title' => $task->title,
             'description' => $task->description,
-            'status'      => 'done',
+            'status' => 'done',
         ])->assertStatus(200);
     }
 
@@ -197,7 +198,7 @@ class TaskControllerTest extends TestCase
         $user = $this->actingAsUser();
         $task = Task::factory()->create(['user_id' => $user->id]);
 
-        $this->deleteJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->deleteJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(200)
             ->assertJsonPath('message', 'Task deleted successfully.');
 
@@ -209,7 +210,7 @@ class TaskControllerTest extends TestCase
         $this->actingAsUser();
         $task = Task::factory()->create();
 
-        $this->deleteJson("/api/v1/task-management/tasks/{$task->id}")
+        $this->deleteJson("/api/v1/task-management/tasks/$task->id")
             ->assertStatus(403);
     }
 
@@ -217,7 +218,7 @@ class TaskControllerTest extends TestCase
     {
         $user = $this->actingAsUser();
         Task::factory()->overdue()->create(['user_id' => $user->id]);
-        Task::factory()->overdue()->create(); // another user
+        Task::factory()->overdue()->create();
 
         $this->getJson('/api/v1/task-management/tasks/overdue')
             ->assertStatus(200)
@@ -247,17 +248,17 @@ class TaskControllerTest extends TestCase
     public function test_admin_can_get_tasks_by_user(): void
     {
         $this->actingAsAdmin();
-        $targetUser = \App\Models\User::factory()->create();
+        $targetUser = User::factory()->create();
         Task::factory(3)->create(['user_id' => $targetUser->id]);
 
-        $this->getJson("/api/v1/task-management/tasks/by-user/{$targetUser->id}")
+        $this->getJson("/api/v1/task-management/tasks/by-user/$targetUser->id")
             ->assertStatus(200)
             ->assertJsonCount(3, 'data');
     }
 
     public function test_user_can_get_tasks_by_their_project(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
         Task::factory(4)->create([
@@ -265,7 +266,7 @@ class TaskControllerTest extends TestCase
             'project_id' => $project->id,
         ]);
 
-        $this->getJson("/api/v1/task-management/tasks/by-project/{$project->id}")
+        $this->getJson("/api/v1/task-management/tasks/by-project/$project->id")
             ->assertStatus(200)
             ->assertJsonCount(4, 'data');
     }

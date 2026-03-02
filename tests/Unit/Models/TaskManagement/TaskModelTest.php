@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Models\TaskManagement;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
+use App\Models\User;
 use Tests\TestCase;
 
 class TaskModelTest extends TestCase
@@ -50,10 +50,10 @@ class TaskModelTest extends TestCase
 
     public function test_task_belongs_to_a_project(): void
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $project = Project::factory()->create(['user_id' => $user->id]);
-        $task    = Task::factory()->create([
-            'user_id'    => $user->id,
+        $task = Task::factory()->create([
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
 
@@ -80,27 +80,27 @@ class TaskModelTest extends TestCase
 
     public function test_deleting_project_sets_task_project_id_to_null(): void
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $project = Project::factory()->create(['user_id' => $user->id]);
-        $task    = Task::factory()->create([
-            'user_id'    => $user->id,
+        $task = Task::factory()->create([
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
 
         $project->delete();
 
         $this->assertDatabaseHas('tasks', [
-            'id'         => $task->id,
+            'id' => $task->id,
             'project_id' => null,
         ]);
     }
 
     public function test_overdue_scope_returns_tasks_with_past_deadline(): void
     {
-        $overdueTask  = Task::factory()->overdue()->create();
+        $overdueTask = Task::factory()->overdue()->create();
         $upcomingTask = Task::factory()->create([
             'deadline' => now()->addDays(5),
-            'status'   => 'todo',
+            'status' => 'todo',
         ]);
 
         $results = Task::overdue()->get();
@@ -129,10 +129,10 @@ class TaskModelTest extends TestCase
 
     public function test_for_user_scope_returns_only_given_users_tasks(): void
     {
-        $user      = User::factory()->create();
+        $user = User::factory()->create();
         $otherUser = User::factory()->create();
 
-        $userTask  = Task::factory()->create(['user_id' => $user->id]);
+        $userTask = Task::factory()->create(['user_id' => $user->id]);
         $otherTask = Task::factory()->create(['user_id' => $otherUser->id]);
 
         $results = Task::forUser($user->id)->get();
@@ -143,16 +143,16 @@ class TaskModelTest extends TestCase
 
     public function test_for_project_scope_returns_only_tasks_in_given_project(): void
     {
-        $user           = User::factory()->create();
-        $project        = Project::factory()->create(['user_id' => $user->id]);
-        $otherProject   = Project::factory()->create(['user_id' => $user->id]);
+        $user = User::factory()->create();
+        $project = Project::factory()->create(['user_id' => $user->id]);
+        $otherProject = Project::factory()->create(['user_id' => $user->id]);
 
-        $projectTask    = Task::factory()->create([
-            'user_id'    => $user->id,
+        $projectTask = Task::factory()->create([
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
-        $otherTask      = Task::factory()->create([
-            'user_id'    => $user->id,
+        $otherTask = Task::factory()->create([
+            'user_id' => $user->id,
             'project_id' => $otherProject->id,
         ]);
 
@@ -188,12 +188,12 @@ class TaskModelTest extends TestCase
     {
         $user = User::factory()->create();
         $task = Task::factory()->create([
-            'title'   => 'Test Task',
+            'title' => 'Test Task',
             'user_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('tasks', [
-            'id'    => $task->id,
+            'id' => $task->id,
             'title' => 'Test Task',
         ]);
     }

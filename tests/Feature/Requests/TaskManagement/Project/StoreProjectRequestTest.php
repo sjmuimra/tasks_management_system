@@ -63,7 +63,7 @@ class StoreProjectRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'name'        => 'My Project',
+            'name' => 'My Project',
             'description' => 12345,
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['description']);
@@ -74,7 +74,7 @@ class StoreProjectRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'name'        => 'My Project',
+            'name' => 'My Project',
             'description' => null,
         ])->assertStatus(201);
     }
@@ -84,7 +84,7 @@ class StoreProjectRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'name'        => 'My Project',
+            'name' => 'My Project',
             'description' => 'A description',
         ])->assertStatus(201)
             ->assertJsonPath('project.name', 'My Project');

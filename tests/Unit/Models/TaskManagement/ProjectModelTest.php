@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Models\TaskManagement;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProjectModelTest extends TestCase
@@ -33,10 +33,10 @@ class ProjectModelTest extends TestCase
 
     public function test_project_has_many_tasks(): void
     {
-        $user    = User::factory()->create();
+        $user  = User::factory()->create();
         $project = Project::factory()->create(['user_id' => $user->id]);
         Task::factory(4)->create([
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
 
@@ -53,24 +53,24 @@ class ProjectModelTest extends TestCase
 
     public function test_deleting_project_sets_task_project_id_to_null(): void
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $project = Project::factory()->create(['user_id' => $user->id]);
-        $task    = Task::factory()->create([
-            'user_id'    => $user->id,
+        $task = Task::factory()->create([
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
 
         $project->delete();
 
         $this->assertDatabaseHas('tasks', [
-            'id'         => $task->id,
+            'id' => $task->id,
             'project_id' => null,
         ]);
     }
 
     public function test_deleting_user_cascades_to_projects(): void
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
         $user->delete();
@@ -80,14 +80,14 @@ class ProjectModelTest extends TestCase
 
     public function test_project_is_persisted_to_database(): void
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $project = Project::factory()->create([
-            'name'    => 'Test Project',
+            'name' => 'Test Project',
             'user_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('projects', [
-            'id'   => $project->id,
+            'id' => $project->id,
             'name' => 'Test Project',
         ]);
     }
@@ -98,7 +98,7 @@ class ProjectModelTest extends TestCase
 
         $this->assertNull($project->description);
         $this->assertDatabaseHas('projects', [
-            'id'          => $project->id,
+            'id' => $project->id,
             'description' => null,
         ]);
     }

@@ -19,7 +19,7 @@ class StoreTaskRequestTest extends TestCase
 
         $this->postJson($this->url, [
             'description' => 'desc',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['title']);
     }
@@ -29,9 +29,9 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 12345,
+            'title' => 12345,
             'description' => 'desc',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['title']);
     }
@@ -41,9 +41,9 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => str_repeat('a', 256),
+            'title' => str_repeat('a', 256),
             'description' => 'desc',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['title']);
     }
@@ -53,9 +53,9 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => str_repeat('a', 255),
+            'title' => str_repeat('a', 255),
             'description' => 'desc',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(201);
     }
 
@@ -64,7 +64,7 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'  => 'My Task',
+            'title' => 'My Task',
             'status' => 'todo',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['description']);
@@ -75,9 +75,9 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 12345,
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['description']);
     }
@@ -87,7 +87,7 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['status']);
@@ -98,9 +98,9 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'invalid_status',
+            'status' => 'invalid_status',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['status']);
     }
@@ -111,18 +111,18 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => $status,
+            'status' => $status,
         ])->assertStatus(201);
     }
 
     public static function validStatusProvider(): array
     {
         return [
-            'todo status'        => ['todo'],
+            'todo status' => ['todo'],
             'in_progress status' => ['in_progress'],
-            'done status'        => ['done'],
+            'done status' => ['done'],
         ];
     }
 
@@ -131,9 +131,9 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(201);
     }
 
@@ -142,10 +142,10 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
-            'deadline'    => 'not-a-date',
+            'status' => 'todo',
+            'deadline' => 'not-a-date',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['deadline']);
     }
@@ -155,10 +155,10 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
-            'deadline'    => now()->subDay()->toDateTimeString(),
+            'status' => 'todo',
+            'deadline' => now()->subDay()->toDateTimeString(),
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['deadline']);
     }
@@ -168,10 +168,10 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
-            'deadline'    => null,
+            'status' => 'todo',
+            'deadline' => null,
         ])->assertStatus(201);
     }
 
@@ -180,10 +180,10 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
-            'deadline'    => now()->addWeek()->toDateTimeString(),
+            'status' => 'todo',
+            'deadline' => now()->addWeek()->toDateTimeString(),
         ])->assertStatus(201);
     }
 
@@ -192,9 +192,9 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
+            'status' => 'todo',
         ])->assertStatus(201);
     }
 
@@ -203,24 +203,24 @@ class StoreTaskRequestTest extends TestCase
         $this->actingAsUser();
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
-            'project_id'  => 99999,
+            'status' => 'todo',
+            'project_id' => 99999,
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['project_id']);
     }
 
     public function test_valid_project_id_is_accepted(): void
     {
-        $user    = $this->actingAsUser();
+        $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
         $this->postJson($this->url, [
-            'title'       => 'My Task',
+            'title' => 'My Task',
             'description' => 'desc',
-            'status'      => 'todo',
-            'project_id'  => $project->id,
+            'status' => 'todo',
+            'project_id' => $project->id,
         ])->assertStatus(201);
     }
 }

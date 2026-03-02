@@ -13,9 +13,9 @@ class AuthControllerTest extends TestCase
     public function test_user_can_register_with_valid_data(): void
     {
         $response = $this->postJson('/api/v1/auth/register', [
-            'name'                  => 'John Doe',
-            'email'                 => 'john@example.com',
-            'password'              => 'password',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password',
             'password_confirmation' => 'password',
         ]);
 
@@ -35,9 +35,9 @@ class AuthControllerTest extends TestCase
         User::factory()->create(['email' => 'john@example.com']);
 
         $this->postJson('/api/v1/auth/register', [
-            'name'                  => 'John Doe',
-            'email'                 => 'john@example.com',
-            'password'              => 'password',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password',
             'password_confirmation' => 'password',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['email']);
@@ -46,9 +46,9 @@ class AuthControllerTest extends TestCase
     public function test_register_fails_when_password_not_confirmed(): void
     {
         $this->postJson('/api/v1/auth/register', [
-            'name'                  => 'John Doe',
-            'email'                 => 'john@example.com',
-            'password'              => 'password',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
+            'password' => 'password',
             'password_confirmation' => 'wrong',
         ])->assertStatus(422)
             ->assertJsonValidationErrors(['password']);
@@ -64,12 +64,12 @@ class AuthControllerTest extends TestCase
     public function test_user_can_login_with_valid_credentials(): void
     {
         User::factory()->create([
-            'email'    => 'john@example.com',
+            'email' => 'john@example.com',
             'password' => 'password',
         ]);
 
         $this->postJson('/api/v1/auth/login', [
-            'email'    => 'john@example.com',
+            'email' => 'john@example.com',
             'password' => 'password',
         ])->assertStatus(200)
             ->assertJsonStructure([
@@ -85,7 +85,7 @@ class AuthControllerTest extends TestCase
         User::factory()->create(['email' => 'john@example.com']);
 
         $this->postJson('/api/v1/auth/login', [
-            'email'    => 'john@example.com',
+            'email' => 'john@example.com',
             'password' => 'wrong-password',
         ])->assertStatus(401)
             ->assertJsonPath('message', 'Invalid credentials.');
@@ -94,7 +94,7 @@ class AuthControllerTest extends TestCase
     public function test_login_fails_with_nonexistent_email(): void
     {
         $this->postJson('/api/v1/auth/login', [
-            'email'    => 'nobody@example.com',
+            'email' => 'nobody@example.com',
             'password' => 'password',
         ])->assertStatus(401);
     }
