@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $user = User::factory()->create([
-            'name'  => 'John Doe',
-            'email' => 'john@example.com',
+            'name'  => 'Imran Khan',
+            'email' => 'imran@gmail.com.com',
         ]);
 
         $adminProjects = Project::factory(3)->create(['user_id' => $admin->id]);

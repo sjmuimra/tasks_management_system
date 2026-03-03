@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Models\TaskManagement;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
