@@ -65,7 +65,7 @@ jobs:
         run: cp .env.testing .env
 
       - name: Generate application key
-        run: php artisan key:generate
+        run: php artisan key:generate --env=testing
 
       - name: Run migrations on test database
         run: php artisan migrate --force
