@@ -1,6 +1,6 @@
 # Task Management System API
 
-A high performance RESTful API for task management built with **Laravel 11**, **Sanctum**, **MySQL**, **Redis**, and **Docker**. The API supports full task and project management with role based access control, deadline notifications, and a fully containerised development environment.
+A high performance RESTful API for task management built with **Laravel 12**, **Sanctum**, **MySQL**, **Redis**, and **Docker**. The API supports full task and project management with role based access control, deadline notifications, and a fully containerised development environment.
 
 ---
 
@@ -22,15 +22,15 @@ A high performance RESTful API for task management built with **Laravel 11**, **
 
 ## Tech Stack
 
-| Technology | Purpose |
-|---|---|
-| **Laravel 11** | PHP framework |
+| Technology          | Purpose |
+|---------------------|---|
+| **Laravel 12**      | PHP framework |
 | **Laravel Sanctum** | API token authentication |
-| **MySQL 8** | Primary database |
-| **Redis 7** | Queue backend for async notifications |
-| **Mailpit** | Local email testing |
-| **Docker** | Containerised development environment |
-| **PHPUnit** | Automated testing |
+| **MySQL 8**         | Primary database |
+| **Redis 7**         | Queue backend for async notifications |
+| **Mailpit**         | Local email testing |
+| **Docker**          | Containerised development environment |
+| **PHPUnit**         | Automated testing |
 
 ---
 
