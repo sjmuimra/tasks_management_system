@@ -20,8 +20,6 @@ jobs:
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_DATABASE: tasks_manager_test
-          MYSQL_USER: user
-          MYSQL_PASSWORD: user
         ports:
           - 3306:3306
         options: >-
@@ -74,8 +72,8 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: tasks_manager_test
-          DB_USERNAME: user
-          DB_PASSWORD: user
+          DB_USERNAME: root
+          DB_PASSWORD: root
 
       - name: Run PHPUnit tests
         run: php artisan test --env=testing
@@ -84,8 +82,8 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: tasks_manager_test
-          DB_USERNAME: user
-          DB_PASSWORD: user
+          DB_USERNAME: root
+          DB_PASSWORD: root
           REDIS_HOST: 127.0.0.1
           REDIS_PORT: 6379
           QUEUE_CONNECTION: sync

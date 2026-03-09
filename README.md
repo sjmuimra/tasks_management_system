@@ -192,9 +192,11 @@ docker compose exec app php artisan key:generate --env=testing
 docker compose exec app php artisan migrate --env=testing
 ```
 
-Make sure your `.env.testing` file has the correct database name:
+Make sure your `.env.testing` file has the correct database name and credentials:
 ```env
 DB_DATABASE=tasks_manager_test
+DB_USERNAME=root
+DB_PASSWORD=root
 ```
 
 ### Run all tests
