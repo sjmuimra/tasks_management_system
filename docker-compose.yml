@@ -15,7 +15,7 @@ services:
         condition: service_started
     networks:
       - tasks_management_network
-    user: "${UID}:${GID}"
+    user: "${UID:-1000}:${GID:-1000}"
 
   nginx:
     image: nginx:1.25-alpine
@@ -63,8 +63,8 @@ services:
     image: axllent/mailpit:latest
     container_name: tasks_manager_mailpit
     ports:
-      - "1025:1025"   # SMTP
-      - "8025:8025"   # Web UI
+      - "1025:1025"
+      - "8025:8025"
     networks:
       - tasks_management_network
 
