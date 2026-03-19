@@ -2,9 +2,9 @@
 
 use App\Http\Middleware\TaskManagement\EnsureNotOverdueUnlessAdmin;
 use App\Http\Middleware\TaskManagement\EnsureTaskOwnership;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Foundation\Application;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'task.owner'   => EnsureTaskOwnership::class,
+            'task.owner' => EnsureTaskOwnership::class,
             'task.overdue' => EnsureNotOverdueUnlessAdmin::class,
         ]);
     })

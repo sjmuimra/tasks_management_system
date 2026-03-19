@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use App\Listeners\TaskManagement\SendOverdueTaskNotification;
 use App\Events\TaskManagement\TaskUpdated;
-use Illuminate\Support\ServiceProvider;
+use App\Listeners\TaskManagement\SendOverdueTaskNotification;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

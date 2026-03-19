@@ -4,20 +4,20 @@ namespace Database\Seeders;
 
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
         $admin = User::factory()->admin()->create([
-            'name'  => 'Admin User',
+            'name' => 'Admin User',
             'email' => 'admin@example.com',
         ]);
 
         $user = User::factory()->create([
-            'name'  => 'Imran Khan',
+            'name' => 'Imran Khan',
             'email' => 'imran@gmail.com.com',
         ]);
 
@@ -27,18 +27,18 @@ class DatabaseSeeder extends Seeder
 
         foreach ($adminProjects as $project) {
             Task::factory(5)->create([
-                'user_id'    => $admin->id,
+                'user_id' => $admin->id,
                 'project_id' => $project->id,
             ]);
             Task::factory(2)->overdue()->create([
-                'user_id'    => $admin->id,
+                'user_id' => $admin->id,
                 'project_id' => $project->id,
             ]);
         }
 
         foreach ($userProjects as $project) {
             Task::factory(4)->create([
-                'user_id'    => $user->id,
+                'user_id' => $user->id,
                 'project_id' => $project->id,
             ]);
         }
@@ -47,7 +47,7 @@ class DatabaseSeeder extends Seeder
             $project = Project::factory()->create(['user_id' => $u->id]);
 
             Task::factory(3)->create([
-                'user_id'    => $u->id,
+                'user_id' => $u->id,
                 'project_id' => $project->id,
             ]);
 

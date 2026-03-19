@@ -2,9 +2,10 @@
 
 namespace App\Listeners\TaskManagement;
 
+use App\Events\TaskManagement\TaskUpdated;
+use App\Models\User;
 use App\Notifications\TaskManagement\TaskDeadlineOverdue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Events\TaskManagement\TaskUpdated;
 use Illuminate\Queue\InteractsWithQueue;
 use Log;
 
@@ -25,14 +26,20 @@ class SendOverdueTaskNotification implements ShouldQueue
     {
         $task = $event->task->loadMissing('user');
 
-        $task->user->notify(new TaskDeadlineOverdue($task));
+        $user = $task->user;
+
+        if (! $user instanceof User) {
+            return;
+        }
+
+        $user->notify(new TaskDeadlineOverdue($task));
     }
 
     public function failed(TaskUpdated $event, \Throwable $exception): void
     {
         Log::error('SendOverdueTaskNotification failed', [
             'task_id' => $event->task->id,
-            'error'   => $exception->getMessage(),
+            'error' => $exception->getMessage(),
         ]);
     }
 }

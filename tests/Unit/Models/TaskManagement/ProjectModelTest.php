@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Models\TaskManagement;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProjectModelTest extends TestCase
@@ -14,7 +14,7 @@ class ProjectModelTest extends TestCase
 
     public function test_fillable_attributes_are_correct(): void
     {
-        $project = new Project();
+        $project = new Project;
 
         $this->assertEquals(
             ['name', 'description', 'user_id'],
@@ -24,7 +24,7 @@ class ProjectModelTest extends TestCase
 
     public function test_project_belongs_to_a_user(): void
     {
-        $user    = User::factory()->create();
+        $user = User::factory()->create();
         $project = Project::factory()->create(['user_id' => $user->id]);
 
         $this->assertInstanceOf(User::class, $project->user);
@@ -33,7 +33,7 @@ class ProjectModelTest extends TestCase
 
     public function test_project_has_many_tasks(): void
     {
-        $user  = User::factory()->create();
+        $user = User::factory()->create();
         $project = Project::factory()->create(['user_id' => $user->id]);
         Task::factory(4)->create([
             'user_id' => $user->id,

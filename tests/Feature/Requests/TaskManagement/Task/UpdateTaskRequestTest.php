@@ -2,10 +2,10 @@
 
 namespace Tests\Feature\Requests\TaskManagement\Task;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\Attributes\DataProvider;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class UpdateTaskRequestTest extends TestCase

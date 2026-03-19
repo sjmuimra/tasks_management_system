@@ -2,10 +2,10 @@
 
 namespace App\Http\Middleware\TaskManagement;
 
-use Symfony\Component\HttpFoundation\Response;
 use App\Models\TaskManagement\Task;
-use Illuminate\Http\Request;
 use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class EnsureTaskOwnership
 {

@@ -2,12 +2,12 @@
 
 namespace Tests\Unit\Notifications\TaskManagement;
 
-use App\Notifications\TaskManagement\TaskDeadlineOverdue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
+use App\Notifications\TaskManagement\TaskDeadlineOverdue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Notifications\Messages\MailMessage;
 use Tests\TestCase;
 
 class TaskDeadlineOverdueTest extends TestCase

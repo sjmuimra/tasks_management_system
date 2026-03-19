@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Models\TaskManagement;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
-use Illuminate\Support\Carbon;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class TaskModelTest extends TestCase
@@ -15,7 +15,7 @@ class TaskModelTest extends TestCase
 
     public function test_fillable_attributes_are_correct(): void
     {
-        $task = new Task();
+        $task = new Task;
 
         $this->assertEquals(
             ['title', 'description', 'status', 'deadline', 'user_id', 'project_id'],

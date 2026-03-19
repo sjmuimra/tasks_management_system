@@ -15,11 +15,11 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'       => ['sometimes', 'required', 'string', 'max:255'],
+            'title' => ['sometimes', 'required', 'string', 'max:255'],
             'description' => ['sometimes', 'required', 'string'],
-            'status'      => ['sometimes', 'required', Rule::in(['todo', 'in_progress', 'done'])],
-            'deadline'    => ['nullable', 'date', 'after:now'],
-            'project_id'  => ['nullable', 'integer', 'exists:projects,id'],
+            'status' => ['sometimes', 'required', Rule::in(['todo', 'in_progress', 'done'])],
+            'deadline' => ['nullable', 'date', 'after:now'],
+            'project_id' => ['nullable', 'integer', 'exists:projects,id'],
         ];
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Events\TaskManagement;
 
+use App\Models\TaskManagement\Task;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use App\Models\TaskManagement\Task;
 
 class TaskUpdated
 {

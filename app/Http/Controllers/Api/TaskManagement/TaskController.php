@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\TaskManagement;
 
-use App\Http\Requests\TaskManagement\Task\StoreTaskRequest;
-use App\Http\Requests\TaskManagement\Task\UpdateTaskRequest;
 use App\Events\TaskManagement\TaskUpdated;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TaskManagement\Task\StoreTaskRequest;
+use App\Http\Requests\TaskManagement\Task\UpdateTaskRequest;
 use App\Models\TaskManagement\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -34,7 +34,7 @@ class TaskController extends Controller
 
         return response()->json([
             'message' => 'Task created successfully.',
-            'task'    => $task->load('project'),
+            'task' => $task->load('project'),
         ], 201);
     }
 
@@ -51,7 +51,7 @@ class TaskController extends Controller
 
         return response()->json([
             'message' => 'Task updated successfully.',
-            'task'    => $task->load('project'),
+            'task' => $task->load('project'),
         ]);
     }
 
