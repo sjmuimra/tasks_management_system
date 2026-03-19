@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Models\TaskManagement;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ProjectTest extends TestCase
@@ -71,7 +71,7 @@ class ProjectTest extends TestCase
         $user = $this->actingAsUser();
         $project = Project::factory()->create(['user_id' => $user->id]);
         $task = Task::factory()->create([
-            'user_id'    => $user->id,
+            'user_id' => $user->id,
             'project_id' => $project->id,
         ]);
 

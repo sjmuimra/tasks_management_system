@@ -2,9 +2,9 @@
 
 namespace Tests\Feature\Requests\TaskManagement\Task;
 
+use App\Models\TaskManagement\Project;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use App\Models\TaskManagement\Project;
 use Tests\TestCase;
 
 class StoreTaskRequestTest extends TestCase

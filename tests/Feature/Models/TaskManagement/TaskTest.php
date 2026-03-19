@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Models\TaskManagement;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Task;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class TaskTest extends TestCase

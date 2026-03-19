@@ -2,18 +2,18 @@
 
 namespace Tests\Unit\Listeners\TaskManagement;
 
-use App\Listeners\TaskManagement\SendOverdueTaskNotification;
-use App\Notifications\TaskManagement\TaskDeadlineOverdue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use App\Events\TaskManagement\TaskUpdated;
+use App\Listeners\TaskManagement\SendOverdueTaskNotification;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
-use Tests\TestCase;
+use App\Notifications\TaskManagement\TaskDeadlineOverdue;
 use Exception;
-use Mockery;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Log;
+use Mockery;
+use Tests\TestCase;
 
 class SendOverdueTaskNotificationTest extends TestCase
 {
@@ -21,7 +21,7 @@ class SendOverdueTaskNotificationTest extends TestCase
 
     private function makeListener(): SendOverdueTaskNotification
     {
-        return new SendOverdueTaskNotification();
+        return new SendOverdueTaskNotification;
     }
 
     public function test_should_queue_returns_true_for_overdue_task(): void
@@ -46,7 +46,7 @@ class SendOverdueTaskNotificationTest extends TestCase
     {
         $task = Task::factory()->create([
             'deadline' => now()->addDays(5),
-            'status'   => 'todo',
+            'status' => 'todo',
         ]);
         $event = new TaskUpdated($task);
         $listener = $this->makeListener();
@@ -58,7 +58,7 @@ class SendOverdueTaskNotificationTest extends TestCase
     {
         $task = Task::factory()->create([
             'deadline' => now()->subDays(3),
-            'status'   => 'done',
+            'status' => 'done',
         ]);
         $event = new TaskUpdated($task);
         $listener = $this->makeListener();
@@ -70,7 +70,7 @@ class SendOverdueTaskNotificationTest extends TestCase
     {
         $task = Task::factory()->create([
             'deadline' => now()->subDays(1),
-            'status'   => 'in_progress',
+            'status' => 'in_progress',
         ]);
         $event = new TaskUpdated($task);
         $listener = $this->makeListener();

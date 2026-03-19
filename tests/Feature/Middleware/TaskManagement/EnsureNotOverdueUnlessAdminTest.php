@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Middleware\TaskManagement;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Task;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EnsureNotOverdueUnlessAdminTest extends TestCase
@@ -85,7 +85,7 @@ class EnsureNotOverdueUnlessAdminTest extends TestCase
     public function test_admin_can_edit_their_own_overdue_task(): void
     {
         $admin = $this->actingAsAdmin();
-        $task  = Task::factory()->overdue()->create(['user_id' => $admin->id]);
+        $task = Task::factory()->overdue()->create(['user_id' => $admin->id]);
 
         $this->putJson("/api/v1/task-management/tasks/$task->id", [
             'title' => $task->title,

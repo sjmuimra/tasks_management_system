@@ -2,20 +2,20 @@
 
 namespace Database\Factories\TaskManagement;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TaskFactory extends Factory
 {
     public function definition(): array
     {
         return [
-            'title'       => fake()->sentence(4),
+            'title' => fake()->sentence(4),
             'description' => fake()->paragraph(),
-            'status'      => fake()->randomElement(['todo', 'in_progress', 'done']),
-            'deadline'    => fake()->optional()->dateTimeBetween('now', '+3 months'),
-            'user_id'     => User::factory(),
-            'project_id'  => null,
+            'status' => fake()->randomElement(['todo', 'in_progress', 'done']),
+            'deadline' => fake()->optional()->dateTimeBetween('now', '+3 months'),
+            'user_id' => User::factory(),
+            'project_id' => null,
         ];
     }
 
@@ -23,7 +23,7 @@ class TaskFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'deadline' => fake()->dateTimeBetween('-1 month', '-1 day'),
-            'status'   => fake()->randomElement(['todo', 'in_progress']),
+            'status' => fake()->randomElement(['todo', 'in_progress']),
         ]);
     }
 

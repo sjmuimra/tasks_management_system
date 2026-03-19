@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Requests\TaskManagement\Project;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Project;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class UpdateProjectRequestTest extends TestCase

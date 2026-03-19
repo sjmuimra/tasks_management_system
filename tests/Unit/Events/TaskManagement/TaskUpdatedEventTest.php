@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Events\TaskManagement;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Events\Dispatchable;
 use App\Events\TaskManagement\TaskUpdated;
-use Illuminate\Queue\SerializesModels;
 use App\Models\TaskManagement\Task;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Queue\SerializesModels;
 use Tests\TestCase;
 
 class TaskUpdatedEventTest extends TestCase

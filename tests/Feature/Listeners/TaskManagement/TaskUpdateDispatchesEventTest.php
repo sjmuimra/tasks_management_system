@@ -2,15 +2,15 @@
 
 namespace Tests\Feature\Listeners\TaskManagement;
 
-use App\Notifications\TaskManagement\TaskDeadlineOverdue;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
 use App\Events\TaskManagement\TaskUpdated;
-use Illuminate\Support\Facades\Event;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
-use Tests\TestCase;
+use App\Notifications\TaskManagement\TaskDeadlineOverdue;
 use Exception;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class TaskUpdateDispatchesEventTest extends TestCase
 {
@@ -22,7 +22,7 @@ class TaskUpdateDispatchesEventTest extends TestCase
 
         $user = $this->actingAsUser();
         $task = Task::factory()->create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'deadline' => null,
         ]);
 
@@ -41,7 +41,7 @@ class TaskUpdateDispatchesEventTest extends TestCase
 
         $user = $this->actingAsUser();
         $task = Task::factory()->create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'deadline' => null,
         ]);
 
@@ -94,9 +94,9 @@ class TaskUpdateDispatchesEventTest extends TestCase
 
         $user = $this->actingAsUser();
         $task = Task::factory()->create([
-            'user_id'  => $user->id,
+            'user_id' => $user->id,
             'deadline' => now()->addDays(5),
-            'status'   => 'todo',
+            'status' => 'todo',
         ]);
 
         $this->putJson("/api/v1/task-management/tasks/$task->id", [

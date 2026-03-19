@@ -5,6 +5,7 @@ namespace Tests\Unit\Models;
 use App\Models\TaskManagement\Project;
 use App\Models\TaskManagement\Task;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
@@ -15,7 +16,7 @@ class UserModelTest extends TestCase
 
     public function test_fillable_attributes_are_correct(): void
     {
-        $user = new User();
+        $user = new User;
 
         $this->assertEquals(
             ['name', 'email', 'password', 'role'],
@@ -139,12 +140,12 @@ class UserModelTest extends TestCase
     public function test_user_is_persisted_to_database(): void
     {
         $user = User::factory()->create([
-            'name'  => 'John Doe',
+            'name' => 'John Doe',
             'email' => 'john@example.com',
         ]);
 
         $this->assertDatabaseHas('users', [
-            'name'  => 'John Doe',
+            'name' => 'John Doe',
             'email' => 'john@example.com',
         ]);
     }
@@ -153,7 +154,7 @@ class UserModelTest extends TestCase
     {
         User::factory()->create(['email' => 'john@example.com']);
 
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         User::factory()->create(['email' => 'john@example.com']);
     }

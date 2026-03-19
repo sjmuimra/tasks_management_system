@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Middleware\TaskManagement;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\TaskManagement\Task;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class EnsureTaskOwnershipTest extends TestCase
@@ -35,9 +35,9 @@ class EnsureTaskOwnershipTest extends TestCase
         $task = Task::factory()->create();
 
         $this->putJson("/api/v1/task-management/tasks/$task->id", [
-            'title'       => 'Hacked Title',
+            'title' => 'Hacked Title',
             'description' => 'Hacked',
-            'status'      => 'done',
+            'status' => 'done',
         ])->assertStatus(403)
             ->assertJsonPath('message', 'You do not have permission to access this task.');
     }

@@ -2,11 +2,11 @@
 
 namespace App\Notifications\TaskManagement;
 
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
 use App\Models\TaskManagement\Task;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class TaskDeadlineOverdue extends Notification implements ShouldQueue
 {
@@ -36,10 +36,10 @@ class TaskDeadlineOverdue extends Notification implements ShouldQueue
     public function toArray(object $notifiable): array
     {
         return [
-            'task_id'  => $this->task->id,
-            'title'    => $this->task->title,
+            'task_id' => $this->task->id,
+            'title' => $this->task->title,
             'deadline' => $this->task->deadline,
-            'status'   => $this->task->status,
+            'status' => $this->task->status,
         ];
     }
 }
